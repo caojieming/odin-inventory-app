@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <!-- set styling file -->
+    <link rel="stylesheet" href="/styles.css">
+    <title>New Message</title>
+  </head>
+  <body>
+    <a href="/"><button>Back to Mini Messageboard</button></a>
+
+    <h1><%= title %></h1>
+
+    <%- include("partials/errors.ejs") %>
+    
+    <form method="POST" action="/new">
+      <input name="username" type="text" placeholder="Put your name here!">
+      <input name="text" type="text" placeholder="Put you message here!">
+      <button>Submit</button>
+    </form>
+    
+    <%- include('footer') %>
+  </body>
+</html>
