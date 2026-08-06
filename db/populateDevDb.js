@@ -10,22 +10,47 @@ try {
 // DROP TABLE IF EXISTS messages;
 // the above can be added or removed from the start as needed
 const SQL = `
-DROP TABLE IF EXISTS messages;
+DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS items;
+DROP TABLE IF EXISTS category_items;
 
-CREATE TABLE IF NOT EXISTS messages (
-  id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  added TIMESTAMPTZ,
-  username VARCHAR (255),
-  text VARCHAR (255)
+CREATE TABLE IF NOT EXISTS categories (
+  name VARCHAR (255),
+  description VARCHAR (255),
+  PRIMARY KEY (name)
+);
+CREATE TABLE IF NOT EXISTS items (
+  name VARCHAR (255),
+  description VARCHAR (255),
+  stock INTEGER,
+  PRIMARY KEY (name)
+);
+CREATE TABLE IF NOT EXISTS category_items (
+  category_name VARCHAR (255),
+  item_name VARCHAR (255),
+  PRIMARY KEY (category_name, item_name),
+  FOREIGN KEY (category_name) REFERENCES categories(name),
+  FOREIGN KEY (item_name) REFERENCES items(name)
 );
 
-INSERT INTO messages (added, username, text) 
+INSERT INTO categories (name, description) 
 VALUES
-  ('2024-12-01 09:00:00z', 'Amando', 'Hi there!'),
-  ('2024-12-05 14:00:00z', 'Charles', 'Hello World!'),
-  ('2024-12-05 15:00:00z', 'Charles', 'Goodbye World!');
+  ('food', 'stuff you eat'),
+  ('protein', 'good source of medium-term energy');
+INSERT INTO items (name, description, stock) 
+VALUES
+  ('watermelon', 'a watery melon', 11),
+  ('steak', 'some good quality beef', 4);
+INSERT INTO category_items (category_name, item_name) 
+VALUES
+  ('food', 'watermelon'),
+  ('food', 'steak'),
+  ('protein', 'steak');
 `;
 
+/*
+
+*/
 
 async function main() {
   console.log("seeding...");
