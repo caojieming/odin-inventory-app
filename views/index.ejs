@@ -5,18 +5,19 @@
     <title>Homepage</title>
   </head>
   <body>
-    <h1><%= title %></h1>
+    <h1>Inventory - Categories</h1>
 
     <a href="/new"><button>Add new message</button></a>
 
-    <% for (let i = 0; i < messages.length; i++) { 
-      curMsg = messages[i]; %>
+    <% for (let i = 0; i < categories.length; i++) { 
+      curCat = categories[i]; %>
       <p>
-        <a href="/details/<%= curMsg.id %>"><button>See Details!</button></a>
-        <%= `[${curMsg.added}] ${curMsg.username}: ${curMsg.text}` %>
+        <button>X</button>
+        <button><%= curCat.name %></button>
+        <%= `Description: ${curCat.description}` %>
       </p>
     <% } %>
 
-    <%- include('footer') %>
+    <%- include('./partials/footer') %>
   </body>
 </html>

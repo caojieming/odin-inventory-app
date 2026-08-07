@@ -1,7 +1,7 @@
 const pool = require("./pool");
 
-async function getAllMessages() {
-  const { rows } = await pool.query("SELECT * FROM messages");
+async function getAllCategories() {
+  const { rows } = await pool.query("SELECT * FROM categories");
   return rows;
 }
 
@@ -24,7 +24,7 @@ async function deleteMessage(id) {
 }
 
 module.exports = {
-  getAllMessages,
+  getAllCategories,
   postNewMessage,
   getMessageDetails,
   deleteMessage

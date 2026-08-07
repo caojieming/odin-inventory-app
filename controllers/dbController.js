@@ -2,9 +2,8 @@ const { body, validationResult, matchedData } = require("express-validator");
 const db = require("../db/queries");
 
 async function openHome(req, res) {
-  const messages = await db.getAllMessages();
-  // console.log("All messages: ", messages);
-  res.render("index", { title: "Mini Messageboard", messages: messages });
+  const categories = await db.getAllCategories();
+  res.render("index", { categories: categories });
 }
 
 async function openForm(req, res) {
