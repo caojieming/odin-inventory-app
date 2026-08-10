@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <!-- set styling file -->
+    <link rel="stylesheet" href="/styles.css">
+    <title>Details</title>
+  </head>
+  <body>
+    <a href="/"><button>Back to Mini Messageboard</button></a>
+
+    <h1><%= name %></h1>
+
+    <% for (let i = 0; i < items.length; i++) { 
+      curItem = items[i]; %>
+      <p>
+        <button class="delete-btn">X</button>
+        <a href="/category/<%= curItem.name %>" ><button><%= curItem.name %></button></a>
+        <%= `Description: ${curItem.description}` %>
+      </p>
+    <% } %>
+    
+    <%- include('./partials/footer') %>
+  </body>
+</html>

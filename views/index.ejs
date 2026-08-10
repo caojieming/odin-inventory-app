@@ -7,13 +7,13 @@
   <body>
     <h1>Inventory - Categories</h1>
 
-    <a href="/new"><button>Add new message</button></a>
+    <a href="/new"><button>Add new category</button></a>
 
     <% for (let i = 0; i < categories.length; i++) { 
       curCat = categories[i]; %>
       <p>
-        <button>X</button>
-        <button><%= curCat.name %></button>
+        <button class="delete-btn">X</button>
+        <a href="/category/<%= curCat.name %>" ><button><%= curCat.name %></button></a>
         <%= `Description: ${curCat.description}` %>
       </p>
     <% } %>

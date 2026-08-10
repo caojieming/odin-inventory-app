@@ -2,6 +2,11 @@ body {
   color: black;
 }
 
+.delete-btn {
+  background-color: red;
+  color: white;
+}
+
 #footer {
   color: white;
   background-color: gray;

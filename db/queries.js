@@ -5,6 +5,17 @@ async function getAllCategories() {
   return rows;
 }
 
+async function getCategory(id) {
+  const sql = `
+  SELECT *
+  FROM category_items JOIN items
+    ON category_name = name
+  WHERE category_name = '${id}'
+  `;
+  const rows = await pool.query(sql);
+  return rows;
+}
+
 async function postNewMessage(added, username, text) {
   const SQL = `
   INSERT INTO messages (added, username, text) 
@@ -14,11 +25,6 @@ async function postNewMessage(added, username, text) {
   await pool.query(SQL);
 }
 
-async function getMessageDetails(id) {
-  const row = await pool.query(`SELECT * FROM messages WHERE id = '${id}'`);
-  return row;
-}
-
 async function deleteMessage(id) {
   await pool.query(`DELETE FROM messages WHERE id = '${id}'`);
 }
@@ -26,6 +32,6 @@ async function deleteMessage(id) {
 module.exports = {
   getAllCategories,
   postNewMessage,
-  getMessageDetails,
+  getCategory,
   deleteMessage
 };
