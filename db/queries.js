@@ -7,12 +7,12 @@ async function getAllCategories() {
 
 async function getCategory(id) {
   const sql = `
-  SELECT *
+  SELECT category_name, item_name, description, stock
   FROM category_items JOIN items
-    ON category_name = name
-  WHERE category_name = '${id}'
+    ON item_name = name
+  WHERE category_name = '${id}';
   `;
-  const rows = await pool.query(sql);
+  const rows = (await pool.query(sql)).rows;
   return rows;
 }
 

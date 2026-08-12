@@ -13,7 +13,8 @@
       curItem = items[i]; %>
       <p>
         <button class="delete-btn">X</button>
-        <a href="/category/<%= curItem.name %>" ><button><%= curItem.name %></button></a>
+        <a href="/category/<%= curItem.name %>" ><button><%= curItem.item_name %></button></a>
+        <%= `Stock: ${curItem.stock}` %>
         <%= `Description: ${curItem.description}` %>
       </p>
     <% } %>

@@ -8,8 +8,8 @@ async function openHome(req, res) {
 
 async function openCategory(req, res) {
   const categoryId = req.params.id;
-  const catItems = (await db.getCategory(categoryId));
-  // TODO/continue here: figure out what exactly catItems is returning
+  const catItems = await db.getCategory(categoryId);
+  // catItems is returning an empty selection
   console.log("category: ", catItems);
   res.render("category", { name: categoryId, items: catItems });
 }
