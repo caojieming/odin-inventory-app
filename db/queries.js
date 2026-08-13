@@ -10,19 +10,23 @@ async function getCategory(id) {
   SELECT category_name, item_name, description, stock
   FROM category_items JOIN items
     ON item_name = name
-  WHERE category_name = '${id}';
+  WHERE category_name = $1;
   `;
-  const rows = (await pool.query(sql)).rows;
+  // using parameterized queries is good practice, decreases possibility of unwanted SQL injections
+  const rows = (await pool.query(sql, [id])).rows;
   return rows;
 }
 
-async function postNewMessage(added, username, text) {
+async function postNewCategory(name, description) {
+  console.log("name: ", name);
+  console.log("description: ", description);
   const SQL = `
-  INSERT INTO messages (added, username, text) 
+  INSERT INTO categories (name, description) 
   VALUES
-    ('${added}', '${username}', '${text}');
+    ($1, $2);
   `;
-  await pool.query(SQL);
+  // again, using parameterized queries reduces possibility of unwanted SQL injections
+  await pool.query(SQL, [name, description]);
 }
 
 async function deleteMessage(id) {
@@ -31,7 +35,7 @@ async function deleteMessage(id) {
 
 module.exports = {
   getAllCategories,
-  postNewMessage,
+  postNewCategory,
   getCategory,
   deleteMessage
 };

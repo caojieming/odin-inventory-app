@@ -9,34 +9,31 @@ async function openHome(req, res) {
 async function openCategory(req, res) {
   const categoryId = req.params.id;
   const catItems = await db.getCategory(categoryId);
-  // catItems is returning an empty selection
-  console.log("category: ", catItems);
+  // console.log("category: ", catItems);
   res.render("category", { name: categoryId, items: catItems });
 }
 
-async function openForm(req, res) {
-  res.render("form", { title: "New Post!" });
+async function openCategoryForm(req, res) {
+  res.render("categoryForm");
 }
 
-const validateMessage = [
-  body("username").trim()
-    .notEmpty().withMessage("Username should not be empty."),
-  body("text").trim()
-    .isLength({ min: 10 }).withMessage("Message should be at least 10 characters long."),
+const validateCategory = [
+  body("name").trim()
+    .notEmpty().withMessage("Category name should not be empty."),
+  body("description").trim()
+    .isLength({ min: 10 }).withMessage("Category description should be at least 10 characters long."),
 ];
-async function submitForm(req, res) {
-  // validate inputs
+async function submitCategory(req, res) {
+  // validate inputs, reload page with error messages if invalid
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).render("form", {
-      title: "New Post!",
+    return res.status(400).render("categoryForm", {
       errors: errors.array(),
     });
   }
-  // effectively "const username = req.body.username" and "const text = req.body.text"
-  const { username, text } = matchedData(req);
-  const added = (new Date()).toISOString();
-  await db.postNewMessage(added, username, text);
+  // effectively "const name = req.body.name" and "const description = req.body.description"
+  const { name, description } = matchedData(req);
+  await db.postNewCategory(name, description);
   res.redirect("/");
 }
 
@@ -48,9 +45,9 @@ async function deleteMessage(req, res) {
 
 module.exports = {
   openHome,
-  openForm,
-  validateMessage,
-  submitForm,
+  openCategoryForm,
+  validateCategory,
+  submitCategory,
   openCategory,
   deleteMessage
 };
