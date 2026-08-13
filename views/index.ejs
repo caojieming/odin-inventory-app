@@ -12,7 +12,9 @@
     <% for (let i = 0; i < categories.length; i++) { 
       curCat = categories[i]; %>
       <p>
-        <button class="delete-btn">X</button>
+        <form method="POST" action="/deleteCategory/<%= curCat.name %>">
+          <button class="delete-btn">X</button>
+        </form>
         <a href="/category/<%= curCat.name %>" ><button><%= curCat.name %></button></a>
         <%= `Description: ${curCat.description}` %>
       </p>

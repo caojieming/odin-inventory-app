@@ -18,8 +18,6 @@ async function getCategory(id) {
 }
 
 async function postNewCategory(name, description) {
-  console.log("name: ", name);
-  console.log("description: ", description);
   const SQL = `
   INSERT INTO categories (name, description) 
   VALUES
@@ -29,13 +27,20 @@ async function postNewCategory(name, description) {
   await pool.query(SQL, [name, description]);
 }
 
-async function deleteMessage(id) {
-  await pool.query(`DELETE FROM messages WHERE id = '${id}'`);
+async function deleteCategory(name) {
+  const SQL1 = `
+  DELETE FROM categories WHERE name = $1;
+  `;
+  const SQL2 = `
+  DELETE FROM category_items WHERE category_name = $1;
+  `;
+  await pool.query(SQL1, [name]);
+  await pool.query(SQL2, [name]);
 }
 
 module.exports = {
   getAllCategories,
   postNewCategory,
   getCategory,
-  deleteMessage
+  deleteCategory
 };

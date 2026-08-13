@@ -7,10 +7,10 @@ async function openHome(req, res) {
 }
 
 async function openCategory(req, res) {
-  const categoryId = req.params.id;
-  const catItems = await db.getCategory(categoryId);
+  const catName = req.params.name;
+  const catItems = await db.getCategory(catName);
   // console.log("category: ", catItems);
-  res.render("category", { name: categoryId, items: catItems });
+  res.render("category", { name: catName, items: catItems });
 }
 
 async function openCategoryForm(req, res) {
@@ -37,9 +37,9 @@ async function submitCategory(req, res) {
   res.redirect("/");
 }
 
-async function deleteMessage(req, res) {
-  const msgId = req.params.id;
-  await db.deleteMessage(msgId);
+async function deleteCategory(req, res) {
+  const catName = req.params.name;
+  await db.deleteCategory(catName);
   res.redirect("/");
 }
 
@@ -49,5 +49,5 @@ module.exports = {
   validateCategory,
   submitCategory,
   openCategory,
-  deleteMessage
+  deleteCategory
 };

@@ -2,6 +2,10 @@ body {
   color: black;
 }
 
+form {
+  display: inline;
+}
+
 .delete-btn {
   background-color: red;
   color: white;
