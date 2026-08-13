@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <!-- set styling file -->
+    <link rel="stylesheet" href="/styles.css">
+    <title>New Item</title>
+  </head>
+  <body>
+    <a href="/"><button>Back to Category</button></a>
+
+    <h1>Add new Item!</h1>
+
+    <%- include("partials/errors.ejs") %>
+    
+    <form method="POST" action="/itemForm">
+      <input name="name" type="text" placeholder="Put category name here!">
+      <input name="description" type="text" placeholder="Put category description here!">
+      <button>Submit</button>
+    </form>
+    
+    <%- include('./partials/footer') %>
+  </body>
+</html>

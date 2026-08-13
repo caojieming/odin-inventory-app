@@ -16,6 +16,8 @@ router.post("/categoryForm", dbController.validateCategory, dbController.submitC
 // request to delete a category
 router.post("/deleteCategory/:name", dbController.deleteCategory);
 
+// link to item in a category
+router.get("/category/:category_name/item/:item_name", dbController.openItemDetails);
 
 
 module.exports = router;

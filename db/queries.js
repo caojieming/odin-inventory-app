@@ -5,7 +5,7 @@ async function getAllCategories() {
   return rows;
 }
 
-async function getCategory(id) {
+async function getCategory(name) {
   const sql = `
   SELECT category_name, item_name, description, stock
   FROM category_items JOIN items
@@ -13,7 +13,7 @@ async function getCategory(id) {
   WHERE category_name = $1;
   `;
   // using parameterized queries is good practice, decreases possibility of unwanted SQL injections
-  const rows = (await pool.query(sql, [id])).rows;
+  const rows = (await pool.query(sql, [name])).rows;
   return rows;
 }
 
@@ -38,9 +38,21 @@ async function deleteCategory(name) {
   await pool.query(SQL2, [name]);
 }
 
+async function getItem(name) {
+  const sql = `
+  SELECT *
+  FROM items
+  WHERE name = $1;
+  `;
+  // using parameterized queries is good practice, decreases possibility of unwanted SQL injections
+  const rows = (await pool.query(sql, [name])).rows[0];
+  return rows;
+}
+
 module.exports = {
   getAllCategories,
   postNewCategory,
   getCategory,
-  deleteCategory
+  deleteCategory,
+  getItem
 };

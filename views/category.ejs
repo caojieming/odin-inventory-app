@@ -2,18 +2,20 @@
   <head>
     <!-- set styling file -->
     <link rel="stylesheet" href="/styles.css">
-    <title>Category - <%= name %></title>
+    <title>Category - <%= category_name %></title>
   </head>
   <body>
     <a href="/"><button>Back to Categories</button></a>
 
-    <h1><%= name %></h1>
+    <h1><%= category_name %></h1>
+
+    <a href="/itemForm"><button>Add new item</button></a>
 
     <% for (let i = 0; i < items.length; i++) { 
       curItem = items[i]; %>
       <p>
         <button class="delete-btn">X</button>
-        <a href="/category/<%= curItem.name %>" ><button><%= curItem.item_name %></button></a>
+        <a href="/category/<%= category_name %>/item/<%= curItem.item_name %>" ><button><%= curItem.item_name %></button></a>
         <%= `Stock: ${curItem.stock}` %>
         <%= `Description: ${curItem.description}` %>
       </p>
