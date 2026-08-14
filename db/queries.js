@@ -18,24 +18,24 @@ async function getCategory(name) {
 }
 
 async function postNewCategory(name, description) {
-  const SQL = `
+  const sql = `
   INSERT INTO categories (name, description) 
   VALUES
     ($1, $2);
   `;
   // again, using parameterized queries reduces possibility of unwanted SQL injections
-  await pool.query(SQL, [name, description]);
+  await pool.query(sql, [name, description]);
 }
 
 async function deleteCategory(name) {
-  const SQL1 = `
+  const sql1 = `
   DELETE FROM categories WHERE name = $1;
   `;
-  const SQL2 = `
+  const sql2 = `
   DELETE FROM category_items WHERE category_name = $1;
   `;
-  await pool.query(SQL1, [name]);
-  await pool.query(SQL2, [name]);
+  await pool.query(sql1, [name]);
+  await pool.query(sql2, [name]);
 }
 
 async function getItem(name) {
@@ -49,10 +49,26 @@ async function getItem(name) {
   return rows;
 }
 
+async function postNewItem(categoryName, itemName, description, stock) {
+  const sql1 = `
+  INSERT INTO items (name, description, stock) 
+  VALUES
+    ($1, $2, $3);
+  `;
+  const sql2 = `
+  INSERT INTO category_items (category_name, item_name) 
+  VALUES
+    ($1, $2);
+  `;
+  await pool.query(sql1, [itemName, description, stock]);
+  await pool.query(sql2, [categoryName, itemName]);
+}
+
 module.exports = {
   getAllCategories,
   postNewCategory,
   getCategory,
   deleteCategory,
-  getItem
+  getItem,
+  postNewItem
 };

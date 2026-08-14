@@ -7,7 +7,7 @@ async function openHome(req, res) {
 }
 
 async function openCategory(req, res) {
-  const catName = req.params.name;
+  const catName = req.params.category_name;
   const catItems = await db.getCategory(catName);
   // console.log("category: ", catItems);
   res.render("category", { category_name: catName, items: catItems });
@@ -38,7 +38,7 @@ async function submitCategory(req, res) {
 }
 
 async function deleteCategory(req, res) {
-  const catName = req.params.name;
+  const catName = req.params.category_name;
   await db.deleteCategory(catName);
   res.redirect("/");
 }
@@ -50,6 +50,36 @@ async function openItemDetails(req, res) {
   res.render("itemDetails", { category_name: catName, item: item });
 }
 
+async function openItemForm(req, res) {
+  const catName = req.params.category_name;
+  res.render("itemForm", { category_name: catName });
+}
+
+const validateItem = [
+  body("name").trim()
+    .notEmpty().withMessage("Item name should not be empty."),
+  body("description").trim()
+    .isLength({ min: 10 }).withMessage("Item description should be at least 10 characters long."),
+  body("stock").trim()
+    .notEmpty().withMessage("Item stock should not be empty.")
+    .isInt({ min: 0 }).withMessage("Item stock should be a non-negative number."),
+];
+async function submitItem(req, res) {
+  const catName = req.params.category_name;
+  const errors = validationResult(req);
+  // this works, apparently
+  if (!errors.isEmpty()) {
+    return res.status(400).render("itemForm", {
+      category_name: catName,
+      errors: errors.array(),
+    });
+  }
+  const { name, description, stock } = matchedData(req);
+  const itemName = name;
+  await db.postNewItem(catName, itemName, description, stock);
+  res.redirect(`/category/${catName}`);
+}
+
 module.exports = {
   openHome,
   openCategoryForm,
@@ -57,5 +87,8 @@ module.exports = {
   submitCategory,
   openCategory,
   deleteCategory,
-  openItemDetails
+  openItemDetails,
+  openItemForm,
+  validateItem,
+  submitItem
 };

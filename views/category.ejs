@@ -9,7 +9,7 @@
 
     <h1><%= category_name %></h1>
 
-    <a href="/itemForm"><button>Add new item</button></a>
+    <a href="/category/<%= category_name %>/itemForm"><button>Add new item</button></a>
 
     <% for (let i = 0; i < items.length; i++) { 
       curItem = items[i]; %>
