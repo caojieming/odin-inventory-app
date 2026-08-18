@@ -23,8 +23,17 @@ async function postNewCategory(name, description) {
   VALUES
     ($1, $2);
   `;
-  // again, using parameterized queries reduces possibility of unwanted SQL injections
-  await pool.query(sql, [name, description]);
+  
+  const errors = [];
+  try {
+    await pool.query(sql, [name, description]);
+  } catch (err) {
+    // specific error code for primary key conflict
+    if (err.code === "23505") {
+      errors.push({ msg: "Item already exists in this category." });
+    }
+  }
+  return errors;
 }
 
 async function deleteCategory(name) {
@@ -50,18 +59,27 @@ async function getItem(name) {
 }
 
 async function postNewItem(categoryName, itemName, description, stock) {
+  // "ON CONFLICT (name) DO NOTHING" basically just ignores the primary key conflict and skips the query
   const sql1 = `
   INSERT INTO items (name, description, stock) 
-  VALUES
-    ($1, $2, $3);
+  VALUES ($1, $2, $3)
+  ON CONFLICT (name) DO NOTHING;
   `;
   const sql2 = `
   INSERT INTO category_items (category_name, item_name) 
-  VALUES
-    ($1, $2);
+  VALUES ($1, $2);
   `;
-  await pool.query(sql1, [itemName, description, stock]);
-  await pool.query(sql2, [categoryName, itemName]);
+
+  const errors = [];
+  try {
+    await pool.query(sql2, [categoryName, itemName]);
+  } catch (err) {
+    // specific error code for primary key conflict
+    if (err.code === "23505") {
+      errors.push({ msg: "Item already exists in this category." });
+    }
+  }
+  return errors;
 }
 
 module.exports = {

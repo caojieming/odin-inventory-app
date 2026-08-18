@@ -31,10 +31,19 @@ async function submitCategory(req, res) {
       errors: errors.array(),
     });
   }
+
   // effectively "const name = req.body.name" and "const description = req.body.description"
   const { name, description } = matchedData(req);
-  await db.postNewCategory(name, description);
-  res.redirect("/");
+  const postErrors = await db.postNewCategory(name, description);
+  // check if any post errors (mainly if an entry with the same primary key, aka category name, already exists in the "categories" DB)
+  if(postErrors.length === 0) {
+    res.redirect("/");
+  }
+  else {
+    return res.status(400).render("categoryForm", {
+      errors: postErrors,
+    });
+  }
 }
 
 async function deleteCategory(req, res) {
@@ -67,17 +76,29 @@ const validateItem = [
 async function submitItem(req, res) {
   const catName = req.params.category_name;
   const errors = validationResult(req);
-  // this works, apparently
+
+  // display an error message on the page if input validation fails
   if (!errors.isEmpty()) {
     return res.status(400).render("itemForm", {
+      // this works, apparently
       category_name: catName,
       errors: errors.array(),
     });
   }
+
   const { name, description, stock } = matchedData(req);
   const itemName = name;
-  await db.postNewItem(catName, itemName, description, stock);
-  res.redirect(`/category/${catName}`);
+  const postErrors = await db.postNewItem(catName, itemName, description, stock);
+  // check if any post errors (mainly if an entry with the same primary keys, aka category_name and item_name, already exists in the "category_items" DB)
+  if(postErrors.length === 0) {
+    res.redirect(`/category/${catName}`);
+  }
+  else {
+    return res.status(400).render("itemForm", {
+      category_name: catName,
+      errors: postErrors,
+    });
+  }
 }
 
 module.exports = {

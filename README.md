@@ -1,4 +1,15 @@
-# nodejs-express-template
+# odin-inventory-app
+
+A simple app that manages an inventory stored in a database.
+
+Todo:
+- ~~edit adding items so that if the item already exists in `items`, it just adds it to `category_items`, unless it also already exists there, in which case throw an error~~
+- ~~edit adding categories so that if the category already exists in `categories`, it throws an error~~
+- delete items (from categories/`category_items`)
+- figure out behavior for deleting items from `items` (maybe once the item no longer exists in `category_items`, delete it from `items`)
+- delete categories (and also delete any relationships to items from that category)
+
+## nodejs-express-template
 Repository Template for NodeJS + Express.
 
 Run `npm install` to install all packages/dev dependencies.<br>
