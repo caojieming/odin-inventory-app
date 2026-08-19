@@ -5,13 +5,13 @@
     <title>New Item</title>
   </head>
   <body>
-    <a href="/category/<%= category_name %>"><button>Back to Category: <%= category_name %></button></a>
+    <a href="/<%= category_name %>"><button>Back to Category: <%= category_name %></button></a>
 
     <h1>Add new Item!</h1>
 
     <%- include("partials/errors.ejs") %>
     
-    <form method="POST" action="/category/<%= category_name %>/itemForm">
+    <form method="POST" action="/<%= category_name %>/itemForm">
       <input name="name" type="text" placeholder="Put item name here!">
       <input name="description" type="text" placeholder="Put item description here!">
       <input name="stock" type="text" placeholder="Put stock here!">

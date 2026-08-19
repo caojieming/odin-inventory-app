@@ -91,7 +91,7 @@ async function submitItem(req, res) {
   const postErrors = await db.postNewItem(catName, itemName, description, stock);
   // check if any post errors (mainly if an entry with the same primary keys, aka category_name and item_name, already exists in the "category_items" DB)
   if(postErrors.length === 0) {
-    res.redirect(`/category/${catName}`);
+    res.redirect(`/${catName}`);
   }
   else {
     return res.status(400).render("itemForm", {
@@ -99,6 +99,13 @@ async function submitItem(req, res) {
       errors: postErrors,
     });
   }
+}
+
+async function deleteItem(req, res) {
+  const catName = req.params.category_name;
+  const itemName = req.params.item_name;
+  await db.deleteItem(catName, itemName);
+  res.redirect(`/${catName}`);
 }
 
 module.exports = {
@@ -111,5 +118,6 @@ module.exports = {
   openItemDetails,
   openItemForm,
   validateItem,
-  submitItem
+  submitItem,
+  deleteItem
 };
