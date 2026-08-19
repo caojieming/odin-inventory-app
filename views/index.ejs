@@ -20,6 +20,24 @@
       </p>
     <% } %>
 
+
+    <h1>Inventory - Items</h1>
+
+    <a href="/"><button>Add new item</button></a>
+
+    <% for (let i = 0; i < items.length; i++) { 
+      curItem = items[i]; %>
+      <p>
+        <!-- /deleteItem/<%= curItem.name %> not implemented yet -->
+        <form method="POST" action="/deleteItem/<%= curItem.name %>">
+          <button class="delete-btn">X</button>
+        </form>
+        <a href="/item/<%= curItem.name %>" ><button><%= curItem.name %></button></a>
+        <%= `Description: ${curItem.description}` %>
+        <%= `Description: ${curItem.stock}` %>
+      </p>
+    <% } %>
+
     <%- include('./partials/footer') %>
   </body>
 </html>

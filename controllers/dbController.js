@@ -3,7 +3,8 @@ const db = require("../db/queries");
 
 async function openHome(req, res) {
   const categories = await db.getAllCategories();
-  res.render("index", { categories: categories });
+  const items = await db.getAllItems();
+  res.render("index", { categories: categories, items: items });
 }
 
 async function openCategory(req, res) {

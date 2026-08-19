@@ -5,6 +5,11 @@ async function getAllCategories() {
   return rows;
 }
 
+async function getAllItems() {
+  const { rows } = await pool.query("SELECT * FROM items");
+  return rows;
+}
+
 async function getCategory(name) {
   const sql = `
   SELECT category_name, item_name, description, stock
@@ -119,6 +124,7 @@ async function deleteItem(category_name, item_name) {
 
 module.exports = {
   getAllCategories,
+  getAllItems,
   postNewCategory,
   getCategory,
   deleteCategory,
