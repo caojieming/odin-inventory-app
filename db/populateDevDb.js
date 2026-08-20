@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS category_items (
   item_name VARCHAR (255),
   PRIMARY KEY (category_name, item_name),
   FOREIGN KEY (category_name) REFERENCES categories(name) ON DELETE CASCADE,
-  FOREIGN KEY (item_name) REFERENCES items(name)
+  FOREIGN KEY (item_name) REFERENCES items(name) ON DELETE CASCADE
 );
 
 INSERT INTO categories (name, description) 

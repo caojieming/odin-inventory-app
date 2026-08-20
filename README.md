@@ -11,7 +11,6 @@ Todo:
 - ~~delete categories (and also delete any relationships to items from that category)~~
 
 - make items independent from categories
-  - edit links to include "item" or "category" prefixes to differentiate them
   - make deleting categories not effect any entry in `items` at all
   - add deleting items from `items`
   - add create item for `items` to homepage and category page(?)

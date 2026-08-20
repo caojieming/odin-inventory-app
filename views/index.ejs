@@ -15,7 +15,7 @@
         <form method="POST" action="/deleteCategory/<%= curCat.name %>">
           <button class="delete-btn">X</button>
         </form>
-        <a href="/<%= curCat.name %>" ><button><%= curCat.name %></button></a>
+        <a href="/category/<%= curCat.name %>" ><button><%= curCat.name %></button></a>
         <%= `Description: ${curCat.description}` %>
       </p>
     <% } %>

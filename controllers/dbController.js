@@ -9,7 +9,7 @@ async function openHome(req, res) {
 
 async function openCategory(req, res) {
   const catName = req.params.category_name;
-  const catItems = await db.getCategory(catName);
+  const catItems = await db.getCategoryItems(catName);
   // console.log("category: ", catItems);
   res.render("category", { category_name: catName, items: catItems });
 }
