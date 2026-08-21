@@ -9,11 +9,6 @@ const dbController = require("../controllers/dbController");
 // home/all categories link
 router.get("/", dbController.openHome);
 
-// link to an item
-router.get("/item/:item_name", dbController.openItemDetails);
-// link to an item from a category
-router.get("/category/:category_name/item/:item_name", dbController.openItemDetails);
-
 // link to a category, and all items in that category
 router.get("/category/:category_name", dbController.openCategory);
 
@@ -25,12 +20,26 @@ router.post("/categoryForm", dbController.validateCategory, dbController.submitC
 // request to delete a category
 router.post("/deleteCategory/:category_name", dbController.deleteCategory);
 
-// link to all items in a specified category link
-router.get("/:category_name/itemForm", dbController.openItemForm);
-// link to all items in a specified category link
-router.post("/:category_name/itemForm", dbController.validateItem, dbController.submitItem);
+
+// link to an item
+router.get("/item/:item_name", dbController.openItemDetails);
+// link to an item from a category
+router.get("/category/:category_name/item/:item_name", dbController.openItemDetails);
+
+// link to item creation form
+router.get("/itemForm", dbController.openItemForm);
+// submission of the above form
+router.post("/itemForm", dbController.validateItem, dbController.submitItem);
 
 // request to delete an item (from a category)
-router.post("/deleteItem/:category_name/:item_name", dbController.deleteItem);
+router.post("/deleteItem/:item_name", dbController.deleteItem);
+
+
+// link to form to add an item to a specific category
+router.get("/category/:category_name/categoryItemForm", dbController.openCategoryItemForm);
+// request to add an item to a specific category
+router.post("/category/:category_name/categoryItemForm", dbController.validateCategoryItem, dbController.submitCategoryItem);
+
+
 
 module.exports = router;

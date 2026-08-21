@@ -14,8 +14,8 @@
     <p>Stock: <%= item.stock %></p>
     <!-- TODO: add a list of other categories this item is in -->
 
-    <form action="/deleteItem/<%= category_name %>/<%= item.name %>" method="post">
-      <button class="delete-btn" type="submit">Delete item from category</button>
+    <form action="/deleteItem/<%= item.name %>" method="post">
+      <button class="delete-btn" type="submit">Delete item everywhere</button>
     </form>
     
     <%- include('./partials/footer') %>

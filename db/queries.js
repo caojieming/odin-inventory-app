@@ -42,26 +42,11 @@ async function postNewCategory(name, description) {
 }
 
 async function deleteCategory(name) {
-  const sql1 = `
-  DELETE FROM categories WHERE name = $1;
+  const sql = `
+  DELETE FROM categories
+  WHERE name = $1;
   `;
-  const sql2 = `
-  DELETE FROM category_items WHERE category_name = $1;
-  `;
-  const sql3 = `
-  DELETE FROM items
-  WHERE NOT EXISTS (
-    SELECT *
-    FROM category_items
-    WHERE category_items.item_name = items.name
-  );
-  `;
-  await pool.query(sql1, [name]);
-  // the commented out query should no longer be needed due to ON CASCADE DELETE
-  // await pool.query(sql2, [name]);
-  // if deleting a category removes the last category an item is connected to, then delete the item from "items" as well
-  // well, this query actually just deletes all items that don't have a related entry in category_items
-  await pool.query(sql3);
+  await pool.query(sql, [name]);
 }
 
 async function getItem(name) {
@@ -102,24 +87,12 @@ async function postNewItem(categoryName, itemName, description, stock) {
   return errors;
 }
 
-async function deleteItem(category_name, item_name) {
-  const sql1 = `
-  DELETE FROM category_items
-  WHERE category_name = $1 AND item_name = $2;
-  `;
-  const sql2 = `
+async function deleteItem(name) {
+  const sql = `
   DELETE FROM items
-  WHERE name = $1
-    AND NOT EXISTS(
-      SELECT * 
-      FROM category_items
-      WHERE item_name = $1
-    );
+  WHERE name = $1;
   `;
-  // deletes item from category_items
-  await pool.query(sql1, [category_name, item_name]);
-  // deletes item from items if there are no categories with the item
-  await pool.query(sql2, [item_name]);
+  await pool.query(sql, [name]);
 }
 
 module.exports = {

@@ -2,21 +2,23 @@
   <head>
     <!-- set styling file -->
     <link rel="stylesheet" href="/styles.css">
-    <title>New Item</title>
+    <title>Add Item to Category</title>
   </head>
   <body>
     <a href="../"><button>Back</button></a>
 
-    <h1>Add new Item!</h1>
+    <h1>Add Item to <%= category_name %>!</h1>
 
     <%- include("partials/errors.ejs") %>
     
-    <form method="POST" action="/itemForm">
+    <!-- add a dropdown list to select from existing items that aren't already in the active category -->
+
+    <!-- <form method="POST" action="/<%= category_name %>/itemForm">
       <input name="name" type="text" placeholder="Put item name here!">
       <input name="description" type="text" placeholder="Put item description here!">
       <input name="stock" type="text" placeholder="Put stock here!">
       <button>Submit</button>
-    </form>
+    </form> -->
     
     <%- include('./partials/footer') %>
   </body>

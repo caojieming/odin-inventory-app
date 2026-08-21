@@ -5,11 +5,11 @@
     <title>Category - <%= category_name %></title>
   </head>
   <body>
-    <a href="/"><button>Back</button></a>
+    <a href="/"><button>Back to Home</button></a>
 
     <h1><%= category_name %></h1>
 
-    <a href="/<%= category_name %>/itemForm"><button>Add new item</button></a>
+    <a href="/category/<%= category_name %>/categoryItemForm"><button>Add an item to <%= category_name %></button></a>
 
     <% for (let i = 0; i < items.length; i++) { 
       curItem = items[i]; %>
