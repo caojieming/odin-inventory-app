@@ -14,9 +14,12 @@
     <% for (let i = 0; i < items.length; i++) { 
       curItem = items[i]; %>
       <p>
+        <!-- To implement next: deleting item from current category -->
+        <!--
         <form method="POST" action="/deleteItem/<%= category_name %>/<%= curItem.item_name %>">
           <button class="delete-btn">X</button>
         </form>
+        -->
 
         <a href="/category/<%= category_name %>/item/<%= curItem.item_name %>" ><button><%= curItem.item_name %></button></a>
         <%= `Stock: ${curItem.stock}` %>

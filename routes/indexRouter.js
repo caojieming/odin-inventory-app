@@ -31,15 +31,16 @@ router.get("/itemForm", dbController.openItemForm);
 // submission of the above form
 router.post("/itemForm", dbController.validateItem, dbController.submitItem);
 
-// request to delete an item (from a category)
+// request to delete an item
 router.post("/deleteItem/:item_name", dbController.deleteItem);
 
 
 // link to form to add an item to a specific category
 router.get("/category/:category_name/categoryItemForm", dbController.openCategoryItemForm);
 // request to add an item to a specific category
-router.post("/category/:category_name/categoryItemForm", dbController.validateCategoryItem, dbController.submitCategoryItem);
+router.post("/category/:category_name/categoryItemForm", dbController.submitCategoryItem);
 
+// todo: deleting item from category
 
 
 module.exports = router;

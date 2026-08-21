@@ -1,11 +1,13 @@
 const { body, validationResult, matchedData } = require("express-validator");
 const db = require("../db/queries");
 
+
 async function openHome(req, res) {
   const categories = await db.getAllCategories();
   const items = await db.getAllItems();
   res.render("index", { categories: categories, items: items });
 }
+
 
 async function openCategory(req, res) {
   const catName = req.params.category_name;
@@ -14,9 +16,11 @@ async function openCategory(req, res) {
   res.render("category", { category_name: catName, items: catItems });
 }
 
+
 async function openCategoryForm(req, res) {
   res.render("categoryForm");
 }
+
 
 const validateCategory = [
   body("name").trim()
@@ -47,11 +51,13 @@ async function submitCategory(req, res) {
   }
 }
 
+
 async function deleteCategory(req, res) {
   const catName = req.params.category_name;
   await db.deleteCategory(catName);
   res.redirect("/");
 }
+
 
 async function openItemDetails(req, res) {
   const catName = req.params.category_name;
@@ -60,10 +66,12 @@ async function openItemDetails(req, res) {
   res.render("itemDetails", { category_name: catName, item: item });
 }
 
+
 async function openItemForm(req, res) {
   const catName = req.params.category_name;
   res.render("itemForm", { category_name: catName });
 }
+
 
 const validateItem = [
   body("name").trim()
@@ -102,30 +110,38 @@ async function submitItem(req, res) {
   }
 }
 
+
 async function deleteItem(req, res) {
   const itemName = req.params.item_name;
   await db.deleteItem(itemName);
   res.redirect(`../`);
 }
 
+
 async function openCategoryItemForm(req, res) {
   const catName = req.params.category_name;
-  res.render("categoryItemForm", { category_name: catName });
+  const itemsList = await db.getValidItemsForCategory(catName);
+  res.render("categoryItemForm", { category_name: catName, items: itemsList });
 }
 
-const validateCategoryItem = [
-  body("name").trim()
-    .notEmpty().withMessage("Item name should not be empty."),
-  body("description").trim()
-    .isLength({ min: 10 }).withMessage("Item description should be at least 10 characters long."),
-  body("stock").trim()
-    .notEmpty().withMessage("Item stock should not be empty.")
-    .isInt({ min: 0 }).withMessage("Item stock should be a non-negative number."),
-];
+
 async function submitCategoryItem(req, res) {
   const catName = req.params.category_name;
-  
+  const itemName = req.body.categoryItem;
+
+  if(itemName === "invalidOption") {
+    const itemsList = await db.getValidItemsForCategory(catName);
+    return res.status(400).render("categoryItemForm", {
+      category_name: catName,
+      items: itemsList,
+      errors: [{ msg: "Please select a valid item." }],
+    });
+  }
+
+  await db.postCategoryItem(catName, itemName);
+  res.redirect(`/category/${catName}`);
 }
+
 
 module.exports = {
   openHome,
@@ -140,6 +156,5 @@ module.exports = {
   submitItem,
   deleteItem,
   openCategoryItemForm,
-  validateCategoryItem,
   submitCategoryItem
 };

@@ -3,8 +3,7 @@
 A simple app that manages an inventory stored in a database.
 
 Todo:
-- make items independent from categories
-  - edit adding items to category to only accept existing items
+- implement deleting items from categories (their relationship, not the item itself)
 - add a way to edit existing categories
 - add a way to edit existing items
 - add a way to create new items from a category page

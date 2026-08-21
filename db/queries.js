@@ -95,6 +95,30 @@ async function deleteItem(name) {
   await pool.query(sql, [name]);
 }
 
+async function getValidItemsForCategory(categoryName) {
+  // joins items and category_items, selects all entries that
+  const sql = `
+  SELECT i.*
+  FROM items i
+  LEFT JOIN category_items ci
+    ON ci.item_name = i.name
+    AND ci.category_name = $1
+  WHERE ci.item_name IS NULL;
+  `;
+  const { rows } = await pool.query(sql, [categoryName]);
+  // console.log("rows:", rows);
+  return rows;
+}
+
+async function postCategoryItem(categoryName, itemName) {
+  const sql = `
+  INSERT INTO category_items (category_name, item_name) 
+  VALUES
+    ($1, $2);
+  `;
+  await pool.query(sql, [categoryName, itemName]);
+}
+
 module.exports = {
   getAllCategories,
   getAllItems,
@@ -103,5 +127,7 @@ module.exports = {
   deleteCategory,
   getItem,
   postNewItem,
-  deleteItem
+  deleteItem,
+  getValidItemsForCategory,
+  postCategoryItem
 };
