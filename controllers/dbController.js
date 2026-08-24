@@ -83,14 +83,16 @@ const validateItem = [
     .isInt({ min: 0 }).withMessage("Item stock should be a non-negative number."),
 ];
 async function submitItem(req, res) {
-  const catName = req.params.category_name;
+  // if item is created from homepage, then it just creates an item
+  // if item is created from category page, then it both creates an item and adds it to the category
+  const catName = req.params.category_name || null;
   const errors = validationResult(req);
 
   // display an error message on the page if input validation fails
   if (!errors.isEmpty()) {
     return res.status(400).render("itemForm", {
       // this works, apparently
-      category_name: catName,
+      ...(catName ? { category_name: catName } : {}),
       errors: errors.array(),
     });
   }
@@ -98,23 +100,37 @@ async function submitItem(req, res) {
   const { name, description, stock } = matchedData(req);
   const itemName = name;
   const postErrors = await db.postNewItem(catName, itemName, description, stock);
-  // check if any post errors (mainly if an entry with the same primary keys, aka category_name and item_name, already exists in the "category_items" DB)
-  if(postErrors.length === 0) {
-    res.redirect(`../`);
-  }
-  else {
+
+  // check if any post errors (mainly if an entry with the same primary keys, aka item.name, already exists in the "items" DB)
+  if(postErrors.length > 0) {
     return res.status(400).render("itemForm", {
       category_name: catName,
       errors: postErrors,
     });
   }
+
+  // redirect to category if category_name exists, otherwise redirect to homepage
+  if(catName) {
+    res.redirect(`/category/${catName}`);
+  }
+  else {
+    res.redirect("/");
+  }
 }
 
 
 async function deleteItem(req, res) {
+  // category_name, if available, will be used to redirect to the category page
+  const catName = req.params.category_name || null;
   const itemName = req.params.item_name;
   await db.deleteItem(itemName);
-  res.redirect(`../`);
+
+  if(catName) {
+    res.redirect(`/category/${catName}`);
+  }
+  else {
+    res.redirect(`/`);
+  }
 }
 
 
@@ -143,6 +159,14 @@ async function submitCategoryItem(req, res) {
 }
 
 
+async function deleteCategoryItem(req, res) {
+  const catName = req.params.category_name;
+  const itemName = req.params.item_name;
+  await db.deleteCategoryItem(catName, itemName);
+  res.redirect(`/category/${catName}`);
+}
+
+
 module.exports = {
   openHome,
   openCategoryForm,
@@ -156,5 +180,6 @@ module.exports = {
   submitItem,
   deleteItem,
   openCategoryItemForm,
-  submitCategoryItem
+  submitCategoryItem,
+  deleteCategoryItem
 };

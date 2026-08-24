@@ -62,28 +62,32 @@ async function getItem(name) {
 }
 
 async function postNewItem(categoryName, itemName, description, stock) {
-  // "ON CONFLICT (name) DO NOTHING" basically just ignores the primary key conflict and skips the query
   const sql1 = `
   INSERT INTO items (name, description, stock) 
-  VALUES ($1, $2, $3)
-  ON CONFLICT (name) DO NOTHING;
+  VALUES ($1, $2, $3);
   `;
-  const sql2 = `
-  INSERT INTO category_items (category_name, item_name) 
-  VALUES ($1, $2);
-  `;
-
-  await pool.query(sql1, [itemName, description, stock]);
 
   const errors = [];
+
   try {
-    await pool.query(sql2, [categoryName, itemName]);
+    await pool.query(sql1, [itemName, description, stock]);
   } catch (err) {
     // specific error code for primary key conflict
     if (err.code === "23505") {
-      errors.push({ msg: "Item already exists in this category." });
+      errors.push({ msg: "An item with this name already exists." });
     }
+    return errors;
   }
+  
+  // if a non null/empty category name was given, also create category-item relationship
+  if(categoryName) {
+    const sql2 = `
+    INSERT INTO category_items (category_name, item_name) 
+    VALUES ($1, $2);
+    `;
+    await pool.query(sql2, [categoryName, itemName]);
+  }
+  
   return errors;
 }
 
@@ -119,6 +123,14 @@ async function postCategoryItem(categoryName, itemName) {
   await pool.query(sql, [categoryName, itemName]);
 }
 
+async function deleteCategoryItem(categoryName, itemName) {
+  const sql = `
+  DELETE FROM category_items
+  WHERE category_name = $1 AND item_name = $2;
+  `;
+  await pool.query(sql, [categoryName, itemName]);
+}
+
 module.exports = {
   getAllCategories,
   getAllItems,
@@ -129,5 +141,6 @@ module.exports = {
   postNewItem,
   deleteItem,
   getValidItemsForCategory,
-  postCategoryItem
+  postCategoryItem,
+  deleteCategoryItem
 };

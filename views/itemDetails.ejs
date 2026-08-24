@@ -5,8 +5,8 @@
     <title>Item Details</title>
   </head>
   <body>
-    <!-- technically iffy practice, but it works so whatever -->
-    <a href="../"><button>Back</button></a>
+    <!-- if category_name is passed to this page, that means this item page was accessed from a category, so link back to the category. Otherwise, go home -->
+    <a href="<%= category_name ? `/category/${category_name}` : '/' %>"><button>Back</button></a>
 
     <h1><%= item.name %></h1>
 
@@ -14,8 +14,8 @@
     <p>Stock: <%= item.stock %></p>
     <!-- TODO: add a list of other categories this item is in -->
 
-    <form action="/deleteItem/<%= item.name %>" method="post">
-      <button class="delete-btn" type="submit">Delete item everywhere</button>
+    <form action="<%= category_name ? `/category/${category_name}/deleteItem/${item.name}` : `/deleteItem/${item.name}` %>" method="post">
+      <button class="delete-btn" type="submit">Delete item completely</button>
     </form>
     
     <%- include('./partials/footer') %>

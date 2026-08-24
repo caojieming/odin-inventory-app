@@ -3,10 +3,12 @@
 A simple app that manages an inventory stored in a database.
 
 Todo:
-- implement deleting items from categories (their relationship, not the item itself)
 - add a way to edit existing categories
 - add a way to edit existing items
-- add a way to create new items from a category page
+
+optional:
+- Make it pretty!
+- Figure out how to protect destructive actions (like deleting and updating) by making users enter a secret admin password to confirm the action
 
 
 Behavior:

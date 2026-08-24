@@ -13,7 +13,7 @@
       curCat = categories[i]; %>
       <p>
         <form method="POST" action="/deleteCategory/<%= curCat.name %>">
-          <button class="delete-btn">X</button>
+          <button class="delete-btn">Delete</button>
         </form>
         <a href="/category/<%= curCat.name %>" ><button><%= curCat.name %></button></a>
         <%= `Description: ${curCat.description}` %>
@@ -30,7 +30,7 @@
       <p>
         <!-- /deleteItem/<%= curItem.name %> not implemented yet -->
         <form method="POST" action="/deleteItem/<%= curItem.name %>">
-          <button class="delete-btn">X</button>
+          <button class="delete-btn">Delete</button>
         </form>
         <a href="/item/<%= curItem.name %>" ><button><%= curItem.name %></button></a>
         <%= `Description: ${curItem.description}` %>
