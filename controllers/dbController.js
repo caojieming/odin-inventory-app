@@ -5,15 +5,15 @@ const db = require("../db/queries");
 async function openHome(req, res) {
   const categories = await db.getAllCategories();
   const items = await db.getAllItems();
-  res.render("index", { categories: categories, items: items });
+  res.render("home", { categories: categories, items: items });
 }
 
 
 async function openCategory(req, res) {
   const catName = req.params.category_name;
+  const category = await db.getCategory(catName);
   const catItems = await db.getCategoryItems(catName);
-  // console.log("category: ", catItems);
-  res.render("category", { category_name: catName, items: catItems });
+  res.render("category", { category: category, items: catItems });
 }
 
 

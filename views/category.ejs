@@ -1,30 +1,36 @@
 <html>
   <head>
     <!-- set styling file -->
-    <link rel="stylesheet" href="/styles.css">
-    <title>Category - <%= category_name %></title>
+    <link rel="stylesheet" href="/css/base.css">
+    <title>Category - <%= category.name %></title>
   </head>
   <body>
-    <a href="/"><button>Back to Home</button></a>
+    <main>
+      <a href="/"><button>Back to Home</button></a>
 
-    <h1><%= category_name %></h1>
+      <h1><%= category.name %></h1>
 
-    <a href="/category/<%= category_name %>/categoryItemForm"><button>Add an existing item to <%= category_name %></button></a>
+      <h3><%= `Description: ${category.description}` %></h3>
 
-    <a href="/category/<%= category_name %>/itemForm"><button>Create a new item and add it to <%= category_name %></button></a>
+      <a href="/category/<%= category.name %>/categoryItemForm"><button>Add an existing item to <%= category.name %></button></a>
 
-    <% for (let i = 0; i < items.length; i++) { 
-      curItem = items[i]; %>
-      <p>
-        <form method="POST" action="/deleteCategoryItem/<%= category_name %>/<%= curItem.item_name %>">
-          <button class="delete-btn">Remove</button>
-        </form>
+      <a href="/category/<%= category.name %>/itemForm"><button>Create a new item and add it to <%= category.name %></button></a>
 
-        <a href="/category/<%= category_name %>/item/<%= curItem.item_name %>" ><button><%= curItem.item_name %></button></a>
-        <%= `Stock: ${curItem.stock}` %>
-        <%= `Description: ${curItem.description}` %>
-      </p>
-    <% } %>
+      <div class="list">
+        <% for (let i = 0; i < items.length; i++) { 
+          curItem = items[i]; %>
+          <div class="item">
+            <form method="POST" action="/deleteCategoryItem/<%= category.name %>/<%= curItem.item_name %>">
+              <button class="delete-btn">Remove</button>
+            </form>
+
+            <a href="/category/<%= category.name %>/item/<%= curItem.item_name %>" ><button><%= curItem.item_name %></button></a>
+            <p><%= `Stock: ${curItem.stock}` %></p>
+            <p><%= `Description: ${curItem.description}` %></p>
+          </div>
+        <% } %>
+      </div>
+    </main>
     
     <%- include('./partials/footer') %>
   </body>

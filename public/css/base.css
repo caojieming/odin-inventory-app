@@ -1,0 +1,42 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  color: black;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  margin: 10px 20px;
+  flex: 1;
+}
+
+.list {
+  margin-top: 20px;
+}
+
+.category, .item {
+  outline: 1px solid gray;
+}
+
+form {
+  display: inline;
+}
+
+.delete-btn {
+  background-color: red;
+  color: white;
+}
+
+#footer {
+  color: white;
+  background-color: gray;
+  /* position: fixed; */
+  /* left: 0; */
+  /* bottom: 0; */
+  /* width: 100%; */
+  text-align: center;
+}
