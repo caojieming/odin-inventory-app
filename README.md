@@ -3,8 +3,8 @@
 A simple app that manages an inventory stored in a database.
 
 Todo:
-- add a way to edit existing categories
 - add a way to edit existing items
+- add a list of categories (links included) an item is a part of to the itemDetails page
 
 optional:
 - Make it pretty!
@@ -12,10 +12,7 @@ optional:
 
 
 Behavior:
-- deleting an item only deletes it from `category_items`
-  - if you delete the last entry with a certain item_name in `category_items`, then it also deletes the item from `items`
-- deleting a category deletes it from `categories`, and deletes all entries in `category_items` that include that category_name via ON DELETE CASCADE (items that were in that category will still exist in other categories)
-  - if deleting a category removes the last category an item is connected to in `category_items`, then the item is deleted from `items` as well
+- to fill out eventually
 
 ## nodejs-express-template
 Repository Template for NodeJS + Express.

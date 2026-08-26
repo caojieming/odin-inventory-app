@@ -59,6 +59,14 @@ async function deleteCategory(req, res) {
 }
 
 
+async function editCategory(req, res) {
+  const catName = req.params.category_name;
+  const catDescription = req.body.description;
+  await db.updateCategory(catName, catDescription);
+  res.redirect("/");
+}
+
+
 async function openItemDetails(req, res) {
   const catName = req.params.category_name;
   const itemName = req.params.item_name;
@@ -174,6 +182,7 @@ module.exports = {
   submitCategory,
   openCategory,
   deleteCategory,
+  editCategory,
   openItemDetails,
   openItemForm,
   validateItem,

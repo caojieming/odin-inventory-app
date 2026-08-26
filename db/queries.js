@@ -1,14 +1,17 @@
 const pool = require("./pool");
 
+
 async function getAllCategories() {
   const { rows } = await pool.query("SELECT * FROM categories");
   return rows;
 }
 
+
 async function getAllItems() {
   const { rows } = await pool.query("SELECT * FROM items");
   return rows;
 }
+
 
 async function getCategory(name) {
   const sql = `
@@ -19,6 +22,7 @@ async function getCategory(name) {
   const row = (await pool.query(sql, [name])).rows[0];
   return row;
 }
+
 
 async function getCategoryItems(name) {
   const sql = `
@@ -31,6 +35,7 @@ async function getCategoryItems(name) {
   const rows = (await pool.query(sql, [name])).rows;
   return rows;
 }
+
 
 async function postNewCategory(name, description) {
   const sql = `
@@ -51,6 +56,7 @@ async function postNewCategory(name, description) {
   return errors;
 }
 
+
 async function deleteCategory(name) {
   const sql = `
   DELETE FROM categories
@@ -58,6 +64,17 @@ async function deleteCategory(name) {
   `;
   await pool.query(sql, [name]);
 }
+
+
+async function updateCategory(name, description) {
+  const sql = `
+  UPDATE categories
+  SET description = $2
+  WHERE name = $1;
+  `;
+  await pool.query(sql, [name, description]);
+}
+
 
 async function getItem(name) {
   const sql = `
@@ -70,6 +87,7 @@ async function getItem(name) {
   // console.log("row:", row);
   return row;
 }
+
 
 async function postNewItem(categoryName, itemName, description, stock) {
   const sql1 = `
@@ -101,6 +119,7 @@ async function postNewItem(categoryName, itemName, description, stock) {
   return errors;
 }
 
+
 async function deleteItem(name) {
   const sql = `
   DELETE FROM items
@@ -108,6 +127,7 @@ async function deleteItem(name) {
   `;
   await pool.query(sql, [name]);
 }
+
 
 async function getValidItemsForCategory(categoryName) {
   // joins items and category_items, selects all entries that
@@ -124,6 +144,7 @@ async function getValidItemsForCategory(categoryName) {
   return rows;
 }
 
+
 async function postCategoryItem(categoryName, itemName) {
   const sql = `
   INSERT INTO category_items (category_name, item_name) 
@@ -133,6 +154,7 @@ async function postCategoryItem(categoryName, itemName) {
   await pool.query(sql, [categoryName, itemName]);
 }
 
+
 async function deleteCategoryItem(categoryName, itemName) {
   const sql = `
   DELETE FROM category_items
@@ -141,6 +163,7 @@ async function deleteCategoryItem(categoryName, itemName) {
   await pool.query(sql, [categoryName, itemName]);
 }
 
+
 module.exports = {
   getAllCategories,
   getAllItems,
@@ -148,6 +171,7 @@ module.exports = {
   postNewCategory,
   getCategoryItems,
   deleteCategory,
+  updateCategory,
   getItem,
   postNewItem,
   deleteItem,

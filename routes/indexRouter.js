@@ -20,6 +20,9 @@ router.post("/categoryForm", dbController.validateCategory, dbController.submitC
 // request to delete a category
 router.post("/deleteCategory/:category_name", dbController.deleteCategory);
 
+// request to edit a category
+router.post("/editCategory/:category_name", dbController.editCategory);
+
 
 // link to an item
 router.get("/item/:item_name", dbController.openItemDetails);
