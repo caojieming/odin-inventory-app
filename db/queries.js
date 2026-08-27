@@ -24,19 +24,6 @@ async function getCategory(name) {
 }
 
 
-async function getCategoryItems(name) {
-  const sql = `
-  SELECT category_name, item_name, description, stock
-  FROM category_items JOIN items
-    ON item_name = name
-  WHERE category_name = $1;
-  `;
-  // using parameterized queries is good practice, decreases possibility of unwanted SQL injections
-  const rows = (await pool.query(sql, [name])).rows;
-  return rows;
-}
-
-
 async function postNewCategory(name, description) {
   const sql = `
   INSERT INTO categories (name, description) 
@@ -141,6 +128,19 @@ async function updateItem(name, description, stock) {
 }
 
 
+async function getCategoryItems(name) {
+  const sql = `
+  SELECT category_name, item_name, description, stock
+  FROM category_items JOIN items
+    ON item_name = name
+  WHERE category_name = $1;
+  `;
+  // using parameterized queries is good practice, decreases possibility of unwanted SQL injections
+  const rows = (await pool.query(sql, [name])).rows;
+  return rows;
+}
+
+
 async function getValidItemsForCategory(categoryName) {
   // joins items and category_items, selects all entries that
   const sql = `
@@ -176,19 +176,34 @@ async function deleteCategoryItem(categoryName, itemName) {
 }
 
 
+async function getItemCategories(itemName) {
+  // joins items and category_items, selects all entries that
+  const sql = `
+  SELECT c.*
+  FROM categories c
+  JOIN category_items ci
+    ON ci.category_name = c.name
+  WHERE ci.item_name = $1;
+  `;
+  const { rows } = await pool.query(sql, [itemName]);
+  return rows;
+}
+
+
 module.exports = {
   getAllCategories,
   getAllItems,
   getCategory,
   postNewCategory,
-  getCategoryItems,
   deleteCategory,
   updateCategory,
   getItem,
   postNewItem,
   deleteItem,
   updateItem,
+  getCategoryItems,
   getValidItemsForCategory,
   postCategoryItem,
-  deleteCategoryItem
+  deleteCategoryItem,
+  getItemCategories
 };

@@ -54,8 +54,11 @@ router.get("/category/:category_name/itemForm", dbController.openItemForm);
 // submission of the above form
 router.post("/category/:category_name/itemForm", dbController.validateItem, dbController.submitItem);
 
-// request to delete a category-item relationship
+// request from a category to delete a category-item relationship
 router.post("/deleteCategoryItem/:category_name/:item_name", dbController.deleteCategoryItem);
+
+// request from an item to delete a category-item relationship
+router.post("/deleteItemCategory/:item_name/:category_name", dbController.deleteItemCategory);
 
 
 module.exports = router;

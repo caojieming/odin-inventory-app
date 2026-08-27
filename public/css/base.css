@@ -26,25 +26,18 @@ main {
   outline: 1px solid gray;
 }
 
-form {
-  display: block;
-}
-
 input {
   field-sizing: content;
 }
 
 .delete-btn {
   background-color: red;
+  border-color: red;
   color: white;
 }
 
 #footer {
   color: white;
   background-color: gray;
-  /* position: fixed; */
-  /* left: 0; */
-  /* bottom: 0; */
-  /* width: 100%; */
   text-align: center;
 }

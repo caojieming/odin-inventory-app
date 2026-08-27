@@ -37,7 +37,6 @@
           <% for (let i = 0; i < items.length; i++) { 
             curItem = items[i]; %>
             <div class="item">
-              <!-- /deleteItem/<%= curItem.name %> not implemented yet -->
               <form method="POST" action="/deleteItem/<%= curItem.name %>">
                 <button class="delete-btn">Delete</button>
               </form>

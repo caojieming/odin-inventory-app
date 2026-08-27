@@ -71,7 +71,8 @@ async function openItemDetails(req, res) {
   const catName = req.params.category_name;
   const itemName = req.params.item_name;
   const item = await db.getItem(itemName);
-  res.render("itemDetails", { category_name: catName, item: item });
+  const itemCategories = await db.getItemCategories(itemName);
+  res.render("itemDetails", { category_name: catName, item: item, item_categories: itemCategories });
 }
 
 
@@ -191,6 +192,14 @@ async function deleteCategoryItem(req, res) {
 }
 
 
+async function deleteItemCategory(req, res) {
+  const catName = req.params.category_name;
+  const itemName = req.params.item_name;
+  await db.deleteCategoryItem(catName, itemName);
+  res.redirect(`/item/${itemName}`);
+}
+
+
 module.exports = {
   openHome,
   openCategoryForm,
@@ -207,5 +216,6 @@ module.exports = {
   editItem,
   openCategoryItemForm,
   submitCategoryItem,
-  deleteCategoryItem
+  deleteCategoryItem,
+  deleteItemCategory
 };
