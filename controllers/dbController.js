@@ -142,6 +142,22 @@ async function deleteItem(req, res) {
 }
 
 
+async function editItem(req, res) {
+  const catName = req.params.category_name || null;
+  const itemName = req.params.item_name;
+  const itemDescription = req.body.description;
+  const itemStock = req.body.stock;
+  await db.updateItem(itemName, itemDescription, itemStock);
+
+  if(catName) {
+    res.redirect(`/category/${catName}`);
+  }
+  else {
+    res.redirect(`/`);
+  }
+}
+
+
 async function openCategoryItemForm(req, res) {
   const catName = req.params.category_name;
   const itemsList = await db.getValidItemsForCategory(catName);
@@ -188,6 +204,7 @@ module.exports = {
   validateItem,
   submitItem,
   deleteItem,
+  editItem,
   openCategoryItemForm,
   submitCategoryItem,
   deleteCategoryItem

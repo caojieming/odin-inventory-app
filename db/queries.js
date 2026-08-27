@@ -129,6 +129,18 @@ async function deleteItem(name) {
 }
 
 
+async function updateItem(name, description, stock) {
+  const sql = `
+  UPDATE items
+  SET
+    description = $2,
+    stock = $3
+  WHERE name = $1;
+  `;
+  await pool.query(sql, [name, description, stock]);
+}
+
+
 async function getValidItemsForCategory(categoryName) {
   // joins items and category_items, selects all entries that
   const sql = `
@@ -175,6 +187,7 @@ module.exports = {
   getItem,
   postNewItem,
   deleteItem,
+  updateItem,
   getValidItemsForCategory,
   postCategoryItem,
   deleteCategoryItem

@@ -39,6 +39,10 @@ router.post("/deleteItem/:item_name", dbController.deleteItem);
 // alternate route to delete an item
 router.post("/category/:category_name/deleteItem/:item_name", dbController.deleteItem);
 
+// request to edit/update an item
+router.post("/editItem/:item_name", dbController.editItem);
+router.post("/category/:category_name/editItem/:item_name", dbController.editItem);
+
 
 // link to form to add an item to a specific category
 router.get("/category/:category_name/categoryItemForm", dbController.openCategoryItemForm);

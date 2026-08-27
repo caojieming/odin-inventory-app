@@ -3,7 +3,6 @@
 A simple app that manages an inventory stored in a database.
 
 Todo:
-- add a way to edit existing items
 - add a list of categories (links included) an item is a part of to the itemDetails page
 
 optional:
