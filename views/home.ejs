@@ -20,7 +20,7 @@
               <form method="POST" action="/deleteCategory/<%= curCat.name %>">
                 <button class="delete-btn">Delete</button>
               </form>
-              <a href="/category/<%= curCat.name %>" ><button><%= curCat.name %></button></a>
+              <a href="/category/<%= curCat.name %>" ><button class="category-btn"><%= curCat.name %></button></a>
               <p><%= `Description: ${curCat.description}` %></p>
             </div>
           <% } %>
@@ -40,7 +40,7 @@
               <form method="POST" action="/deleteItem/<%= curItem.name %>">
                 <button class="delete-btn">Delete</button>
               </form>
-              <a href="/item/<%= curItem.name %>" ><button><%= curItem.name %></button></a>
+              <a href="/item/<%= curItem.name %>" ><button class="item-btn"><%= curItem.name %></button></a>
               <p><%= `Description: ${curItem.description}` %></p>
               <p><%= `Stock: ${curItem.stock}` %></p>
             </div>

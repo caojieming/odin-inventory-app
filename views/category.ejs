@@ -14,7 +14,7 @@
         <label for="description">Description:</label>
         <input name="description" type="text" placeholder="input description here" value="<%= category.description %>">
         <br><br>
-        <button>Edit</button>
+        <button>Change category details!</button>
       </form>
 
       <div id="section-items">
@@ -30,7 +30,7 @@
                 <button class="delete-btn">Remove</button>
               </form>
 
-              <a href="/category/<%= category.name %>/item/<%= curItem.item_name %>" ><button><%= curItem.item_name %></button></a>
+              <a href="/category/<%= category.name %>/item/<%= curItem.item_name %>" ><button class="item-btn"><%= curItem.item_name %></button></a>
               <p><%= `Stock: ${curItem.stock}` %></p>
               <p><%= `Description: ${curItem.description}` %></p>
             </div>

@@ -3,15 +3,18 @@
 A simple app that manages an inventory stored in a database.
 
 Todo:
-- None! All basic functionality features implemented (it's ugly though)
+- None! All basic functionality features implemented
 
 optional:
 - Make it pretty!
+  - header?
 - Figure out how to protect destructive actions (like deleting and updating) by making users enter a secret admin password to confirm the action
 
 
 Behavior:
-- to fill out eventually
+- database has 3 tables: categories, items, and category_items
+  - first 2 are self explanatory, category_items is responsible for keeping track of what item is part of which category and is entirely dependent on the other 2 tables through foreign keys
+- deleting a catetgory/item deletes its corresponding relationships with its items/categories in category_items (via ON DELETE CASCADE)
 
 ## nodejs-express-template
 Repository Template for NodeJS + Express.

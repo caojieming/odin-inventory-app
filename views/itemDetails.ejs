@@ -20,18 +20,18 @@
         <input name="stock" type="text" placeholder="input stock quantity here" value="<%= item.stock %>">
         <!-- TODO: add a list of other categories this item is in -->
         <br><br>
-        <button>Edit</button>
+        <button>Change item details!</button>
       </form>
       
-      <div class="categories-list">
-        <p>Categories this item is a part of:</p>
+      <p>Categories this item is a part of:</p>
+      <div class="list">
         <% for (let i = 0; i < item_categories.length; i++) { 
           curCat = item_categories[i]; %>
           <div class="category">
             <form method="POST" action="/deleteItemCategory/<%= item.name %>/<%= curCat.name %>">
               <button class="delete-btn">Delete from this category</button>
             </form>
-            <a href="/category/<%= curCat.name %>" ><button><%= curCat.name %></button></a>
+            <a href="/category/<%= curCat.name %>" ><button class="category-btn"><%= curCat.name %></button></a>
           </div>
         <% } %>
       </div>
